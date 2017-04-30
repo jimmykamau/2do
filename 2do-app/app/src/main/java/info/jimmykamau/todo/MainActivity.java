@@ -43,23 +43,29 @@ public class MainActivity extends AppCompatActivity {
         String itemTitle = newItemInput.getText().toString();
         TodoItem newItem = new TodoItem(itemTitle, "New item description");
         todoItemsList.add(newItem);
-        ((BaseAdapter) mTodoItemsListView.getAdapter()).notifyDataSetChanged();
         newItemInput.setText("");
         updateProgress();
     }
 
-    public void markItemAsComplete(TodoItem todoItem) {
+    public void removeTodoItem(int position) {
+        todoItemsList.remove(position);
+        updateProgress();
+    }
+
+    public void markItemAsComplete(int position) {
+        TodoItem selectedItem = todoItemsList.get(position);
+        selectedItem.markTodoComplete(!selectedItem.checkTodoComplete());
+        updateProgress();
+    }
+
+    private void updateProgress() {
+        ((BaseAdapter) mTodoItemsListView.getAdapter()).notifyDataSetChanged();
         completedItems = 0;
-        todoItem.markTodoComplete(!todoItem.checkTodoComplete());
         for (TodoItem item : todoItemsList) {
             if(item.checkTodoComplete()) {
                 completedItems++;
             }
         }
-        updateProgress();
-    }
-
-    private void updateProgress() {
         int numberOfItems = todoItemsList.size();
         int currentProgress = (completedItems*100)/numberOfItems;
         mTodoListProgress.setProgress(currentProgress);

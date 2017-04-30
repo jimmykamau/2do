@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class TodoListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         TodoItemViewHolder viewHolder;
 
         if(convertView == null) {
@@ -63,7 +64,15 @@ public class TodoListAdapter extends BaseAdapter {
         viewHolder.itemCompleteStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) mContext).markItemAsComplete(currentItem);
+                ((MainActivity) mContext).markItemAsComplete(position);
+            }
+        });
+
+        viewHolder.itemTextHolder.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ((MainActivity) mContext).removeTodoItem(position);
+                return true;
             }
         });
 
@@ -71,6 +80,7 @@ public class TodoListAdapter extends BaseAdapter {
     }
 
     private class TodoItemViewHolder {
+        LinearLayout itemTextHolder;
         TextView itemTitle;
         TextView itemDescription;
         CheckBox itemCompleteStatus;
@@ -78,6 +88,7 @@ public class TodoListAdapter extends BaseAdapter {
 
         public TodoItemViewHolder(View view) {
             mView = view;
+            itemTextHolder = (LinearLayout) view.findViewById(R.id.to_do_item_text);
             itemTitle = (TextView) view.findViewById(R.id.todo_item_title);
             itemDescription = (TextView) view.findViewById(R.id.todo_item_description);
             itemCompleteStatus = (CheckBox) view.findViewById(R.id.todo_item_complete);
