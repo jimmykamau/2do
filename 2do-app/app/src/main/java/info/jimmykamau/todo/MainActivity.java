@@ -6,6 +6,10 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -15,12 +19,19 @@ import info.jimmykamau.todo.models.TodoItem;
 public class MainActivity extends AppCompatActivity {
 
     private ArrayList<TodoItem> todoItemsList = new ArrayList<>();
+    private int completedItems = 0;
     private ListView mTodoItemsListView;
+    private ProgressBar mTodoListProgress;
+    private TextView mTodoListProgressText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mTodoListProgressText = (TextView) findViewById(R.id.completion_progress_text);
+        mTodoListProgress = (ProgressBar) findViewById(R.id.completion_progress_bar);
+        mTodoListProgress.setMax(100);
 
         TodoListAdapter todoListAdapter = new TodoListAdapter(this, todoItemsList);
         mTodoItemsListView = (ListView) findViewById(R.id.todo_items_list);
@@ -34,5 +45,24 @@ public class MainActivity extends AppCompatActivity {
         todoItemsList.add(newItem);
         ((BaseAdapter) mTodoItemsListView.getAdapter()).notifyDataSetChanged();
         newItemInput.setText("");
+        updateProgress();
+    }
+
+    public void markItemAsComplete(TodoItem todoItem) {
+        completedItems = 0;
+        todoItem.markTodoComplete(!todoItem.checkTodoComplete());
+        for (TodoItem item : todoItemsList) {
+            if(item.checkTodoComplete()) {
+                completedItems++;
+            }
+        }
+        updateProgress();
+    }
+
+    private void updateProgress() {
+        int numberOfItems = todoItemsList.size();
+        int currentProgress = (completedItems*100)/numberOfItems;
+        mTodoListProgress.setProgress(currentProgress);
+        mTodoListProgressText.setText(getApplicationContext().getString(R.string.progress_text, currentProgress));
     }
 }

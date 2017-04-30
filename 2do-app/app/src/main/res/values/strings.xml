@@ -3,7 +3,7 @@
     
     <string name="main_title">Work Things To Complete</string>
     <string name="progress_title">Progress</string>
-    <string name="progress_text">%d %% Done</string>
+    <string name="progress_text">%d%% Done</string>
     <string name="to_do_title">To Do</string>
     <string name="new_item_paceholder">Add new item</string>
     <string name="add_button_text">Add</string>

@@ -5,10 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import info.jimmykamau.todo.MainActivity;
 import info.jimmykamau.todo.R;
 import info.jimmykamau.todo.models.TodoItem;
 
@@ -54,9 +56,16 @@ public class TodoListAdapter extends BaseAdapter {
             viewHolder = (TodoItemViewHolder) convertView.getTag();
         }
 
-        TodoItem currentItem = mTodoItemsList.get(position);
+        final TodoItem currentItem = mTodoItemsList.get(position);
         viewHolder.itemTitle.setText(currentItem.getTodoItemTitle());
         viewHolder.itemDescription.setText(currentItem.getTodoItemDescription());
+
+        viewHolder.itemCompleteStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) mContext).markItemAsComplete(currentItem);
+            }
+        });
 
         return convertView;
     }
@@ -64,12 +73,14 @@ public class TodoListAdapter extends BaseAdapter {
     private class TodoItemViewHolder {
         TextView itemTitle;
         TextView itemDescription;
+        CheckBox itemCompleteStatus;
         View mView;
 
         public TodoItemViewHolder(View view) {
             mView = view;
             itemTitle = (TextView) view.findViewById(R.id.todo_item_title);
             itemDescription = (TextView) view.findViewById(R.id.todo_item_description);
+            itemCompleteStatus = (CheckBox) view.findViewById(R.id.todo_item_complete);
         }
     }
 }

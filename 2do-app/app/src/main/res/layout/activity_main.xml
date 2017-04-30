@@ -25,18 +25,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ProgressBar
-                    android:id="@+id/completion_progress_bar"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    style="@android:style/Widget.ProgressBar.Horizontal" />
-
                 <TextView
                     android:id="@+id/completion_progress_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     tools:text="33% Done"/>
+
+                <ProgressBar
+                    android:id="@+id/completion_progress_bar"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@+id/completion_progress_text"
+                    style="@android:style/Widget.ProgressBar.Horizontal" />
+
             </RelativeLayout>
 
         </LinearLayout>
