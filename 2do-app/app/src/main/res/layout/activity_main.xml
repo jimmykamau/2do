@@ -72,9 +72,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:text="@string/add_button_text" />
+            android:text="@string/add_button_text"
+            android:onClick="addTodoItem" />
 
         <EditText
+            android:id="@+id/add_item_input"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_toStartOf="@+id/add_item_button"
