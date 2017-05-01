@@ -1,22 +1,31 @@
 package info.jimmykamau.todo.models;
 
+import com.orm.SugarRecord;
+
 /**
  * Created by jimmy on 30/04/2017.
  */
 
-public class TodoItem {
-    private String mTodoItemTitle;
-    private String mTodoItemDescription;
-    private boolean mComplete;
+public class TodoItem extends SugarRecord {
+    private String itemTitle;
+    private String itemDescription;
+    private boolean itemComplete;
 
-    public TodoItem(String todoItemTitle, String todoItemDescription) {
-        this.mTodoItemTitle = todoItemTitle;
-        this.mTodoItemDescription = todoItemDescription;
-        this.mComplete = false;
+    public TodoItem() {
+
     }
-    public void markTodoComplete(boolean complete) { mComplete = complete; }
 
-    public String getTodoItemTitle() { return mTodoItemTitle; }
-    public String getTodoItemDescription() { return mTodoItemDescription; }
-    public boolean checkTodoComplete() { return mComplete; }
+    public TodoItem(String itemTitle, String itemDescription, boolean itemComplete) {
+        this.itemTitle = itemTitle;
+        this.itemDescription = itemDescription;
+        this.itemComplete = itemComplete;
+    }
+
+    public void updateItemTitle(String itemTitle) { this.itemTitle = itemTitle; }
+    public void updateItemDescription(String itemDescription) { this.itemDescription = itemDescription; }
+    public void updateItemComplete(boolean itemComplete) { this.itemComplete = itemComplete; }
+
+    public String getTodoItemTitle() { return itemTitle; }
+    public String getTodoItemDescription() { return itemDescription; }
+    public boolean checkTodoComplete() { return itemComplete; }
 }

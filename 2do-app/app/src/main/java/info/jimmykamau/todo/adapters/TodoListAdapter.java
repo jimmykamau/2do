@@ -8,8 +8,10 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import info.jimmykamau.todo.MainActivity;
 import info.jimmykamau.todo.R;
@@ -24,15 +26,14 @@ public class TodoListAdapter extends BaseAdapter {
     private ArrayList<TodoItem> mTodoItemsList;
     private Context mContext;
 
-    public TodoListAdapter(Context context, ArrayList<TodoItem> todoItems) {
+    public TodoListAdapter(Context context) {
         inflater = LayoutInflater.from(context);
-        this.mTodoItemsList = todoItems;
         this.mContext = context;
     }
 
     @Override
     public int getCount() {
-        return mTodoItemsList.size();
+        return (int) TodoItem.count(TodoItem.class);
     }
 
     @Override
@@ -46,7 +47,8 @@ public class TodoListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
+        mTodoItemsList = new ArrayList<>(TodoItem.listAll(TodoItem.class));
         TodoItemViewHolder viewHolder;
 
         if(convertView == null) {
@@ -57,21 +59,30 @@ public class TodoListAdapter extends BaseAdapter {
             viewHolder = (TodoItemViewHolder) convertView.getTag();
         }
 
-        final TodoItem currentItem = mTodoItemsList.get(position);
+        final TodoItem currentItem = TodoItem.findById(TodoItem.class, mTodoItemsList.get(position).getId());
+
         viewHolder.itemTitle.setText(currentItem.getTodoItemTitle());
         viewHolder.itemDescription.setText(currentItem.getTodoItemDescription());
+        viewHolder.itemCompleteStatus.setChecked(currentItem.checkTodoComplete());
 
         viewHolder.itemCompleteStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) mContext).markItemAsComplete(position);
+                currentItem.updateItemComplete(true);
+                currentItem.save();
+                notifyDataSetInvalidated();
+                Toast.makeText(mContext, mContext.getString(R.string.todo_mark_complete), Toast.LENGTH_SHORT).show();
+                ((MainActivity) mContext).updateProgress();
             }
         });
 
         viewHolder.itemTextHolder.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                ((MainActivity) mContext).removeTodoItem(position);
+                currentItem.delete();
+                notifyDataSetChanged();
+                Toast.makeText(mContext, mContext.getString(R.string.todo_delete_success), Toast.LENGTH_SHORT).show();
+                ((MainActivity) mContext).updateProgress();
                 return true;
             }
         });

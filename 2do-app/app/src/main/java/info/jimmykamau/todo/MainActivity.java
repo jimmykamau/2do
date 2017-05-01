@@ -8,18 +8,18 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import info.jimmykamau.todo.adapters.TodoListAdapter;
 import info.jimmykamau.todo.models.TodoItem;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ArrayList<TodoItem> todoItemsList = new ArrayList<>();
-    private int completedItems = 0;
     private ListView mTodoItemsListView;
     private ProgressBar mTodoListProgress;
     private TextView mTodoListProgressText;
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         mTodoListProgress = (ProgressBar) findViewById(R.id.completion_progress_bar);
         mTodoListProgress.setMax(100);
 
-        TodoListAdapter todoListAdapter = new TodoListAdapter(this, todoItemsList);
+        TodoListAdapter todoListAdapter = new TodoListAdapter(this);
         mTodoItemsListView = (ListView) findViewById(R.id.todo_items_list);
         mTodoItemsListView.setAdapter(todoListAdapter);
 
@@ -43,26 +43,17 @@ public class MainActivity extends AppCompatActivity {
     public void addTodoItem(View view) {
         EditText newItemInput = (EditText) findViewById(R.id.add_item_input);
         String itemTitle = newItemInput.getText().toString();
-        TodoItem newItem = new TodoItem(itemTitle, "New item description");
-        todoItemsList.add(newItem);
+        TodoItem newItem = new TodoItem(itemTitle, "New item description", false);
+        newItem.save();
+        ((BaseAdapter) mTodoItemsListView.getAdapter()).notifyDataSetChanged();
+        Toast.makeText(this, getString(R.string.todo_create_success), Toast.LENGTH_SHORT).show();
         newItemInput.setText("");
         updateProgress();
     }
 
-    public void removeTodoItem(int position) {
-        todoItemsList.remove(position);
-        updateProgress();
-    }
-
-    public void markItemAsComplete(int position) {
-        TodoItem selectedItem = todoItemsList.get(position);
-        selectedItem.markTodoComplete(!selectedItem.checkTodoComplete());
-        updateProgress();
-    }
-
-    private void updateProgress() {
-        ((BaseAdapter) mTodoItemsListView.getAdapter()).notifyDataSetChanged();
-        completedItems = 0;
+    public void updateProgress() {
+        List<TodoItem> todoItemsList = TodoItem.listAll(TodoItem.class);
+        int completedItems = 0;
         for (TodoItem item : todoItemsList) {
             if(item.checkTodoComplete()) {
                 completedItems++;
