@@ -8,4 +8,29 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- Base layout theme -->
+    <style name="BaseLayout">
+        <item name="android:layout_margin">16dp</item>
+    </style>
+
+    <!-- Subtitle -->
+    <style name="SubtitleLayout">
+        <item name="android:height">48dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_marginTop">8dp</item>
+    </style>
+
+    <!-- To do list item -->
+    <style name="TodoListItem">
+        <item name="android:minHeight">72dp</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <!-- Styling for new item input at bottom of screen -->
+    <style name="NewItemInput">
+        <item name="android:background">@android:color/white</item>
+    </style>
+
 </resources>

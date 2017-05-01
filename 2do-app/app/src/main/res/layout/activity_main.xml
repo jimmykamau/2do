@@ -4,12 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="info.jimmykamau.todo.MainActivity">
+    tools:context="info.jimmykamau.todo.MainActivity"
+    style="@style/BaseLayout">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_above="@+id/new_item_input_container"
+        android:layout_alignParentTop="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -19,25 +22,43 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/main_title" />
+                android:text="@string/main_title"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="48dp">
 
                 <TextView
                     android:id="@+id/completion_progress_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
+                    android:gravity="center_vertical"
+                    android:layout_marginStart="8dp"
                     tools:text="33% Done"/>
 
-                <ProgressBar
-                    android:id="@+id/completion_progress_bar"
+                <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="vertical"
                     android:layout_toStartOf="@+id/completion_progress_text"
-                    style="@android:style/Widget.ProgressBar.Horizontal" />
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/progress_title"
+                        android:layout_marginBottom="8dp"/>
+
+                    <ProgressBar
+                        android:id="@+id/completion_progress_bar"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        style="@android:style/Widget.ProgressBar.Horizontal" />
+
+                </LinearLayout>
 
             </RelativeLayout>
 
@@ -51,7 +72,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/to_do_title" />
+                android:text="@string/to_do_title"
+                style="@style/SubtitleLayout"/>
 
             <ListView
                 android:id="@+id/todo_items_list"
@@ -65,9 +87,11 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/new_item_input_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        style="@style/NewItemInput">
 
         <Button
             android:id="@+id/add_item_button"

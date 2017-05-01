@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
         TodoListAdapter todoListAdapter = new TodoListAdapter(this, todoItemsList);
         mTodoItemsListView = (ListView) findViewById(R.id.todo_items_list);
         mTodoItemsListView.setAdapter(todoListAdapter);
+
+        updateProgress();
     }
 
     public void addTodoItem(View view) {
@@ -67,7 +69,10 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         int numberOfItems = todoItemsList.size();
-        int currentProgress = (completedItems*100)/numberOfItems;
+        int currentProgress = 0;
+        if (numberOfItems != 0) {
+            currentProgress = (completedItems*100)/numberOfItems;
+        }
         mTodoListProgress.setProgress(currentProgress);
         mTodoListProgressText.setText(getApplicationContext().getString(R.string.progress_text, currentProgress));
     }
