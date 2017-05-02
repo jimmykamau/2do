@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">2do</string>
+    
+    <string name="main_title">Work Things To Complete</string>
+    <string name="progress_title">Progress</string>
+    <string name="progress_text">%d%% Done</string>
+    <string name="to_do_title">To Do</string>
+    <string name="new_item_title_paceholder">My item title</string>
+    <string name="new_item_description_placeholder">My item description</string>
+    <string name="add_button_text">Add Item</string>
+    <string name="todo_create_success">To-do item created successfully</string>
+    <string name="todo_edit_success">To-do item edited successfully</string>
+    <string name="todo_mark_complete">To-do item marked as complete</string>
+    <string name="todo_delete_success">To-do item deleted successfully</string>
+    <string name="todo_item_switch_text">Done</string>
+    <string name="edit_todo_save_botton_text">Save</string>
+    <string name="edit_todo_delete_button_text">Delete</string>
+    <string name="todo_title_header">Title</string>
+    <string name="todo_description_header">Description</string>
+    <string name="header_edit_todo">Edit item</string>
+</resources>
