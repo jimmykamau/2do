@@ -54,12 +54,17 @@ public class EditTodoFragment extends BottomSheetDialogFragment {
             public void onClick(View v) {
                 String newTitle = todoTitle.getText().toString();
                 String newDescription = todoDescription.getText().toString();
-                todoItem.updateItemTitle(newTitle);
-                todoItem.updateItemDescription(newDescription);
-                todoItem.save();
-                ((BaseAdapter) ((MainActivity) getContext()).mTodoItemsListView.getAdapter()).notifyDataSetChanged();
-                Toast.makeText(getContext(), getString(R.string.todo_edit_success), Toast.LENGTH_SHORT).show();
-                dismiss();
+
+                if (newTitle.trim().isEmpty() || newDescription.trim().isEmpty()) {
+                    Toast.makeText(getContext(), R.string.error_fill_all_fields, Toast.LENGTH_SHORT).show();
+                } else {
+                    todoItem.updateItemTitle(newTitle);
+                    todoItem.updateItemDescription(newDescription);
+                    todoItem.save();
+                    ((BaseAdapter) ((MainActivity) getContext()).mTodoItemsListView.getAdapter()).notifyDataSetChanged();
+                    Toast.makeText(getContext(), getString(R.string.todo_edit_success), Toast.LENGTH_SHORT).show();
+                    dismiss();
+                }
             }
         });
 
