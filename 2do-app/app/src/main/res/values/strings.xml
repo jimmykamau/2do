@@ -18,4 +18,5 @@
     <string name="todo_title_header">Title</string>
     <string name="todo_description_header">Description</string>
     <string name="header_edit_todo">Edit item</string>
+    <string name="error_fill_all_fields">Kindly fill in all fields</string>
 </resources>

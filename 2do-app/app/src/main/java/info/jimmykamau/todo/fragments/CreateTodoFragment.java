@@ -41,14 +41,19 @@ public class CreateTodoFragment extends BottomSheetDialogFragment {
                 EditText newItemDescription = (EditText) mCreateTodoView.findViewById(R.id.add_item_description_input);
                 String itemTitle = newItemTitle.getText().toString();
                 String itemDescription = newItemDescription.getText().toString();
-                TodoItem newItem = new TodoItem(itemTitle, itemDescription, false);
-                newItem.save();
-                ((BaseAdapter) ((MainActivity) getContext()).mTodoItemsListView.getAdapter()).notifyDataSetChanged();
-                Toast.makeText(getContext(), getString(R.string.todo_create_success), Toast.LENGTH_SHORT).show();
-                newItemTitle.setText("");
-                newItemDescription.setText("");
-                dismiss();
-                ((MainActivity) getContext()).updateProgress();
+
+                if (itemTitle.trim().isEmpty() || itemDescription.trim().isEmpty()) {
+                    Toast.makeText(getContext(), getString(R.string.error_fill_all_fields), Toast.LENGTH_SHORT).show();
+                } else {
+                    TodoItem newItem = new TodoItem(itemTitle, itemDescription, false);
+                    newItem.save();
+                    ((BaseAdapter) ((MainActivity) getContext()).mTodoItemsListView.getAdapter()).notifyDataSetChanged();
+                    Toast.makeText(getContext(), getString(R.string.todo_create_success), Toast.LENGTH_SHORT).show();
+                    newItemTitle.setText("");
+                    newItemDescription.setText("");
+                    dismiss();
+                    ((MainActivity) getContext()).updateProgress();
+                }
             }
         });
     }
