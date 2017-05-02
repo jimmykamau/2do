@@ -1,26 +1,23 @@
 package info.jimmykamau.todo;
 
+import android.support.design.widget.BottomSheetDialogFragment;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.BaseAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import info.jimmykamau.todo.adapters.TodoListAdapter;
+import info.jimmykamau.todo.fragments.CreateTodoFragment;
 import info.jimmykamau.todo.models.TodoItem;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ListView mTodoItemsListView;
+    public ListView mTodoItemsListView;
     private ProgressBar mTodoListProgress;
     private TextView mTodoListProgressText;
 
@@ -28,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        getSupportActionBar().setElevation(0);
 
         mTodoListProgressText = (TextView) findViewById(R.id.completion_progress_text);
         mTodoListProgress = (ProgressBar) findViewById(R.id.completion_progress_bar);
@@ -38,17 +37,15 @@ public class MainActivity extends AppCompatActivity {
         mTodoItemsListView.setAdapter(todoListAdapter);
 
         updateProgress();
-    }
 
-    public void addTodoItem(View view) {
-        EditText newItemInput = (EditText) findViewById(R.id.add_item_input);
-        String itemTitle = newItemInput.getText().toString();
-        TodoItem newItem = new TodoItem(itemTitle, "New item description", false);
-        newItem.save();
-        ((BaseAdapter) mTodoItemsListView.getAdapter()).notifyDataSetChanged();
-        Toast.makeText(this, getString(R.string.todo_create_success), Toast.LENGTH_SHORT).show();
-        newItemInput.setText("");
-        updateProgress();
+        final BottomSheetDialogFragment newItemDialogFragment = new CreateTodoFragment();
+        FloatingActionButton mNewTodoButton = (FloatingActionButton) findViewById(R.id.new_todo_floating);
+        mNewTodoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                newItemDialogFragment.show(getSupportFragmentManager(), newItemDialogFragment.getTag());
+            }
+        });
     }
 
     public void updateProgress() {

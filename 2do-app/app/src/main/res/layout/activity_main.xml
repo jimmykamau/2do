@@ -1,113 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="info.jimmykamau.todo.MainActivity"
-    style="@style/BaseLayout">
+    tools:context="info.jimmykamau.todo.MainActivity" >
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/main_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_above="@+id/new_item_input_container"
-        android:layout_alignParentTop="true">
+        android:layout_height="match_parent" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_alignParentTop="true">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/main_title"
-                android:textStyle="bold"
-                android:textSize="20sp"/>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="48dp">
+                android:orientation="vertical"
+                android:background="@color/colorPrimary"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
 
                 <TextView
-                    android:id="@+id/completion_progress_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:gravity="center_vertical"
-                    android:layout_marginStart="8dp"
-                    tools:text="33% Done"/>
+                    android:text="@string/main_title"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="20sp"
+                    android:textColor="@android:color/white"/>
 
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_toStartOf="@+id/completion_progress_text"
-                    android:gravity="center_vertical">
+                    android:layout_marginTop="8dp" >
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/progress_title"
-                        android:layout_marginBottom="8dp"/>
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/progress_title"
+                            android:layout_alignParentStart="true"
+                            android:textColor="@android:color/white"/>
+
+                        <TextView
+                            android:id="@+id/completion_progress_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:textColor="@android:color/white"
+                            tools:text="33% Done"/>
+
+                    </RelativeLayout>
 
                     <ProgressBar
                         android:id="@+id/completion_progress_bar"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        style="@android:style/Widget.ProgressBar.Horizontal" />
+                        style="@android:style/Widget.Holo.ProgressBar.Horizontal" />
 
                 </LinearLayout>
 
-            </RelativeLayout>
+            </LinearLayout>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/to_do_title"
-                style="@style/SubtitleLayout"/>
+                android:orientation="vertical" style="@style/BaseLayout">
 
-            <ListView
-                android:id="@+id/todo_items_list"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/to_do_title"
+                    style="@style/SubtitleLayout"/>
 
-            </ListView>
+                <ListView
+                    android:id="@+id/todo_items_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                </ListView>
+
+            </LinearLayout>
 
         </LinearLayout>
-
-    </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/new_item_input_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        style="@style/NewItemInput">
-
-        <Button
-            android:id="@+id/add_item_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:text="@string/add_button_text"
-            android:onClick="addTodoItem" />
-
-        <EditText
-            android:id="@+id/add_item_input"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_toStartOf="@+id/add_item_button"
-            android:hint="@string/new_item_paceholder" />
 
     </RelativeLayout>
 
-</RelativeLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/new_todo_floating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        app:layout_anchor="@id/main_container"
+        app:layout_anchorGravity="bottom|right|end"
+        android:src="@drawable/ic_add_white_24px"
+        android:layout_margin="16dp"
+        android:clickable="true"/>
+
+</android.support.design.widget.CoordinatorLayout>
