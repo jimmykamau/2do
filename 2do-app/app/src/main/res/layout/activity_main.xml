@@ -26,15 +26,6 @@
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/main_title"
-                    android:textStyle="bold"
-                    android:layout_gravity="center_horizontal"
-                    android:textSize="20sp"
-                    android:textColor="@android:color/white"/>
-
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -76,7 +67,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" style="@style/BaseLayout">
+                android:orientation="vertical"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp">
 
                 <TextView
                     android:layout_width="match_parent"

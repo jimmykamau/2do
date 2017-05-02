@@ -11,6 +11,7 @@ public class TodoItem extends SugarRecord {
     private String itemDescription;
     private boolean itemComplete;
 
+    // Empty constructor needed by Sugar ORM
     public TodoItem() {
 
     }
@@ -21,10 +22,12 @@ public class TodoItem extends SugarRecord {
         this.itemComplete = itemComplete;
     }
 
+    // Setter methods
     public void updateItemTitle(String itemTitle) { this.itemTitle = itemTitle; }
     public void updateItemDescription(String itemDescription) { this.itemDescription = itemDescription; }
     public void updateItemComplete(boolean itemComplete) { this.itemComplete = itemComplete; }
 
+    // Getter methods
     public String getTodoItemTitle() { return itemTitle; }
     public String getTodoItemDescription() { return itemDescription; }
     public boolean checkTodoComplete() { return itemComplete; }

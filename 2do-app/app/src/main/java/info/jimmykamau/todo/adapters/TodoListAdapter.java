@@ -1,20 +1,25 @@
 package info.jimmykamau.todo.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.support.design.widget.BottomSheetDialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import info.jimmykamau.todo.MainActivity;
 import info.jimmykamau.todo.R;
+import info.jimmykamau.todo.fragments.EditTodoFragment;
 import info.jimmykamau.todo.models.TodoItem;
 
 /**
@@ -59,42 +64,49 @@ public class TodoListAdapter extends BaseAdapter {
             viewHolder = (TodoItemViewHolder) convertView.getTag();
         }
 
+        // Get a to-do item
         final TodoItem currentItem = TodoItem.findById(TodoItem.class, mTodoItemsList.get(position).getId());
 
+        // Set the item's title and description
         viewHolder.itemTitle.setText(currentItem.getTodoItemTitle());
         viewHolder.itemDescription.setText(currentItem.getTodoItemDescription());
-        viewHolder.itemCompleteStatus.setChecked(currentItem.checkTodoComplete());
 
-        viewHolder.itemCompleteStatus.setOnClickListener(new View.OnClickListener() {
+        // Generate the item's colored circle
+        ColorGenerator generator = ColorGenerator.MATERIAL;
+        int drawableBackground = generator.getRandomColor();
+        TextDrawable drawable;
+        if (currentItem.checkTodoComplete()) {
+            drawable = TextDrawable.builder().buildRound(String.valueOf('\u2713'), Color.GREEN);
+        } else {
+            drawable = TextDrawable.builder().buildRound(
+                    currentItem.getTodoItemTitle().substring(0, 1).toUpperCase(), drawableBackground);
+        }
+        viewHolder.itemDrawable.setImageDrawable(drawable);
+
+        // Listen for the item's click events
+        viewHolder.itemTextHolder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentItem.updateItemComplete(true);
-                currentItem.save();
-                notifyDataSetInvalidated();
-                Toast.makeText(mContext, mContext.getString(R.string.todo_mark_complete), Toast.LENGTH_SHORT).show();
-                ((MainActivity) mContext).updateProgress();
-            }
-        });
-
-        viewHolder.itemTextHolder.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                currentItem.delete();
-                notifyDataSetChanged();
-                Toast.makeText(mContext, mContext.getString(R.string.todo_delete_success), Toast.LENGTH_SHORT).show();
-                ((MainActivity) mContext).updateProgress();
-                return true;
+                Bundle args = new Bundle();
+                args.putLong("todoId", currentItem.getId());
+                BottomSheetDialogFragment editItemDialogFragment = new EditTodoFragment();
+                editItemDialogFragment.setArguments(args);
+                editItemDialogFragment.show(((MainActivity)mContext).getSupportFragmentManager(),
+                        editItemDialogFragment.getTag());
             }
         });
 
         return convertView;
     }
 
+    /**
+     * A class that holds the to-do items' views
+     */
     private class TodoItemViewHolder {
         LinearLayout itemTextHolder;
         TextView itemTitle;
         TextView itemDescription;
-        CheckBox itemCompleteStatus;
+        ImageView itemDrawable;
         View mView;
 
         public TodoItemViewHolder(View view) {
@@ -102,7 +114,7 @@ public class TodoListAdapter extends BaseAdapter {
             itemTextHolder = (LinearLayout) view.findViewById(R.id.to_do_item_text);
             itemTitle = (TextView) view.findViewById(R.id.todo_item_title);
             itemDescription = (TextView) view.findViewById(R.id.todo_item_description);
-            itemCompleteStatus = (CheckBox) view.findViewById(R.id.todo_item_complete);
+            itemDrawable = (ImageView) view.findViewById(R.id.todo_drawable);
         }
     }
 }

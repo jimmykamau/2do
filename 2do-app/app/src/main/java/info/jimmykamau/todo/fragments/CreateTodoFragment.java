@@ -1,7 +1,6 @@
 package info.jimmykamau.todo.fragments;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialogFragment;
@@ -33,6 +32,7 @@ public class CreateTodoFragment extends BottomSheetDialogFragment {
     public void setupDialog(Dialog dialog, int style) {
         dialog.setContentView(mCreateTodoView);
 
+        // Listen for the `Add Item` click event and create a new to-do item
         Button addItemButton = (Button) mCreateTodoView.findViewById(R.id.add_item_button);
         addItemButton.setOnClickListener(new View.OnClickListener() {
             @Override

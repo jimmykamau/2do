@@ -28,9 +28,4 @@
         <item name="android:gravity">center_vertical</item>
     </style>
 
-    <!-- Styling for new item input at bottom of screen -->
-    <style name="NewItemInput">
-        <item name="android:background">@android:color/white</item>
-    </style>
-
 </resources>

@@ -26,18 +26,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Remove shadow below action bar
         getSupportActionBar().setElevation(0);
 
+        // Initiate progress bar and progress text
         mTodoListProgressText = (TextView) findViewById(R.id.completion_progress_text);
         mTodoListProgress = (ProgressBar) findViewById(R.id.completion_progress_bar);
         mTodoListProgress.setMax(100);
 
+        // Initiate to-do list adapter
         TodoListAdapter todoListAdapter = new TodoListAdapter(this);
         mTodoItemsListView = (ListView) findViewById(R.id.todo_items_list);
         mTodoItemsListView.setAdapter(todoListAdapter);
 
         updateProgress();
 
+        // Initiate BottomSheetDialogFragment for creating a new to-do item and listen for
+        // floating button's click events
         final BottomSheetDialogFragment newItemDialogFragment = new CreateTodoFragment();
         FloatingActionButton mNewTodoButton = (FloatingActionButton) findViewById(R.id.new_todo_floating);
         mNewTodoButton.setOnClickListener(new View.OnClickListener() {
@@ -48,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Update the progress bar according to the number of items added and the ones marked as done
+     */
     public void updateProgress() {
         List<TodoItem> todoItemsList = TodoItem.listAll(TodoItem.class);
         int completedItems = 0;
